@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "name": "altproject",
+  "version": "1.0.0",
+  "description": "alternative language project data ingestion and cleaning ",
+  "main": "FileDataProcessing.js",
+  "scripts": {
+    "start":"node FileDataProcessing.js"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goldenresolver/AlternativeLanguageProject.git"
+  },
+  "author": "Jason Polanco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Goldenresolver/AlternativeLanguageProject/issues"
+  },
+  "homepage": "https://github.com/Goldenresolver/AlternativeLanguageProject#readme"
+}
