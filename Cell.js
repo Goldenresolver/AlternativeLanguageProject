@@ -1,8 +1,9 @@
 // Declaration
 export default class Cell {
-  constructor(info, headers) {
+  static headers;
+  constructor(info) {
     const self = this;
-    headers.forEach((header,i)=> {
+    Cell.headers.forEach((header,i)=> {
       let value= info[i];
 
       if(value ===undefined)
@@ -59,20 +60,31 @@ export default class Cell {
   }
 
   set launch_announced(value)
-  {
-    this._launch_announced = value;
+  { 
+    if(value)
+      value = value.match(/(?:[^\d]|^)(\d{4})(?:[^\d]|$)/);
+    this._launch_announced = value ? value[1]: null;
+
   }
 
 
   get launch_status()
   {
-
+    
     return this._launch_status;
     
   }
 
   set launch_status(value)
   {
+    if(value && value!="Discontinued" && value!="Cancelled")
+    { 
+      value = value.match(/(?:[^\d]|^)(\d{4})(?:[^\d]|$)/);
+      value = value ? value[1]: null;
+  
+        
+
+    }
     this._launch_status = value;
   }
 
@@ -99,7 +111,16 @@ export default class Cell {
   }
 
   set body_weight(value)
-  {
+  {  
+    if(value)
+    {
+      value= value.match(/(\d+(\.\d*)?)\s*g/);
+    
+      if (value) value = value[1];
+
+    }
+   
+
     this._body_weight = value;
   }
 
@@ -114,6 +135,8 @@ export default class Cell {
 
   set body_sim(value)
   {
+    if(value=="No"|| value=="Yes")
+       value= null;
     this._body_sim = value;
   }
 
@@ -144,6 +167,15 @@ export default class Cell {
 
   set display_size(value)
   {
+
+    if(value)
+    {
+      value= value.match(/(\d+(\.\d*)?)\s*inches/);
+    
+      if (value) value = value[1];
+
+    }
+
     this._display_size = value;
   }
 
@@ -174,6 +206,8 @@ export default class Cell {
 
   set features_sensors(value)
   {
+    if(value && value.match(/^\d+(\.\d*)?$/))
+      value =null;
     this._features_sensors = value;
   }
 
@@ -188,9 +222,26 @@ export default class Cell {
 
   set platform_os(value)
   {
+    if(value)
+    {
+      value = value.match(/^[^,]+/);
+      if(value)
+        value= value[0];
+    }
     this._platform_os = value;
   }
 
+  toString() 
+  {
+    let str = "{\n";
+    for(const header of Cell.headers)
+    {
+      str += `  ${header}:  ${this[header]}\n`;
+    }
+
+    str += '}';
+    return str;
+  } 
 
 
 

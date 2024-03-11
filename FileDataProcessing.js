@@ -13,6 +13,8 @@ fs.readFile('cells.csv', 'utf8', (err, data) => {
  const headers = cells.splice(0,1)[0];
  console.log(headers);
 
+ Cell.headers = headers;
+
  const phoneHashMap = {};
 
  for(let i =0; i<cells.length; i++)
@@ -24,7 +26,7 @@ fs.readFile('cells.csv', 'utf8', (err, data) => {
 
  }
 
- console.log(phoneHashMap[1]);
+ console.log(phoneHashMap[1].toString());
 
  //console.log(cells);
  let cleaned = cells.map(row => row.map((value,i)=>{
