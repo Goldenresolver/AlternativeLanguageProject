@@ -5,8 +5,7 @@
   "description": "alternative language project data ingestion and cleaning ",
   "main": "FileDataProcessing.js",
   "scripts": {
-    "start":"node FileDataProcessing.js"
-    
+    "start": "node FileDataProcessing.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Goldenresolver/AlternativeLanguageProject/issues"
   },
-  "homepage": "https://github.com/Goldenresolver/AlternativeLanguageProject#readme"
+  "homepage": "https://github.com/Goldenresolver/AlternativeLanguageProject#readme",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
 }

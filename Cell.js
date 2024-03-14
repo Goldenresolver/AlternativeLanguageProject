@@ -1,20 +1,42 @@
 // Declaration
+
+//import Prompt from "prompt-sync";
+
+import promptSync from "prompt-sync";
+const prompt = promptSync();
+
 export default class Cell {
   static counts = {};
   static phones = {};
 
   static headers;
 
+  static currentIndex = 0;
+
+  // static prompt = new Prompt();
+
+  static displayHeaders = {
+    oem: "Manufacturer",
+    model: "Model",
+    launch_announced: "Launch Announced",
+    launch_status: "Launch Status",
+    body_dimensions: "Body Dimensions",
+    body_weight: "Body Weight",
+    body_sim: "Body SIM",
+    display_type: "Display Type",
+    display_size: "Display Size",
+    display_resolution: "Display Resolution",
+    features_sensors: "Features/Sensors",
+    platform_os: "Operating System",
+  };
+
   constructor(info, index) {
     const self = this;
     Cell.headers.forEach((header, i) => {
       let value = info[i];
 
-      if (value === undefined) {
-        console.log(info);
-      }
-
-      value = value.trim().replace(/^"(.+(?="$))"$/, "$1");
+      if (typeof value === "string")
+        value = value.trim().replace(/^"(.+(?="$))"$/, "$1");
 
       if (value == "-" || value == "") {
         value = null;
@@ -23,6 +45,9 @@ export default class Cell {
       self[header] = value;
     });
     Cell.phones[index] = this;
+    if (index > Cell.currentIndex) {
+      Cell.currentIndex = index;
+    }
   }
 
   // oem,model,launch_announced,launch_status,body_dimensions,body_weight,body_sim,display_type,display_size,display_resolution,features_sensors,platform_os
@@ -141,7 +166,7 @@ export default class Cell {
   set platform_os(value) {
     if (value) {
       value = value.match(/^[^,]+/);
-      if (value) value = value[1];
+      if (value) value = value[0];
     }
     this._platform_os = value;
   }
@@ -149,7 +174,7 @@ export default class Cell {
   toString() {
     let str = "{\n";
     for (const header of Cell.headers) {
-      str += `  ${header}:  ${this[header]}\n`;
+      str += `  ${Cell.displayHeaders[header]}:  ${this[header]}\n`;
     }
 
     str += "}";
@@ -221,5 +246,19 @@ export default class Cell {
 
   static uniqueValues(attr) {
     return Object.keys(Cell.counts[attr]);
+  }
+
+  static addPhone() {
+    const phone = new Cell([], Cell.currentIndex + 1);
+
+    for (const attr of Cell.headers) {
+      while (!phone[attr]) {
+        const value = prompt(`Enter the  ${Cell.displayHeaders[attr]}: `);
+
+        phone[attr] = value;
+      }
+    }
+
+    console.log(`phone successfully added:\n ${phone.toString()}`);
   }
 }

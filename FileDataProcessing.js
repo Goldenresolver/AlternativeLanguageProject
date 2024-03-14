@@ -43,15 +43,5 @@ fs.readFile("cells.csv", "utf8", (err, data) => {
   console.log(
     `Year with most releases: ${modeYear} (${count} models released:  )`
   );
-
-  //console.log(cells);
-  let cleaned = cells.map((row) =>
-    row.map((value, i) => {
-      value = value.trim();
-
-      if (value == "-" || value == "") {
-        return null;
-      }
-    })
-  );
+  Cell.addPhone();
 });
