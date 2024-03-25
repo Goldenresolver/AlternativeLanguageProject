@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/Goldenresolver/AlternativeLanguageProject#readme",
   "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.19.1",
     "prompt-sync": "^4.2.0"
   }
 }
