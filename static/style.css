@@ -1,0 +1,10 @@
+.phone-list{
+
+  height:40%;
+  overflow: auto;
+}
+
+.selected{
+
+  background-color: aqua;
+}

@@ -248,7 +248,7 @@ export default class Cell {
     return Object.keys(Cell.counts[attr]);
   }
 
-  static addPhone() {
+  static addPhoneConsole() {
     const phone = new Cell([], Cell.currentIndex + 1);
 
     for (const attr of Cell.headers) {
@@ -260,5 +260,19 @@ export default class Cell {
     }
 
     console.log(`phone successfully added:\n ${phone.toString()}`);
+  }
+
+  static addPhone(data) {
+    const phone = new Cell([], Cell.currentIndex + 1);
+
+    for (const attr of Cell.headers) {
+      phone[attr] = data[attr];
+    }
+    console.log(Cell.phones[Cell.currentIndex]);
+
+    console.log(phone);
+  }
+  static deletePhone(id) {
+    delete Cell.phones[id];
   }
 }

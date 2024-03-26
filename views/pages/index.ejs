@@ -2,9 +2,11 @@
 
 <head>
 
+<link rel="stylesheet" type ="text/css" href="/static/style.css">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-
+<script src="/static/index.js"></script>
 
 
 
@@ -12,13 +14,57 @@
 
 
 <body>
-  <% for(let i =0; i<5;i++)
+  <div class = "phone-list">
+    <table>
+  <% for(let i in phones)
   {%>
-     <%= phones[i]%>;
+    <tr class="phone-info" phone-id="<%=i%>">
+      <td>
+       
+       <%= phones[i].oem%>
+      </td>
+
+      <td>
+       
+       <%= phones[i].model%>
+      </td>
+
+      <td>
+       
+       <%= phones[i].launch_announced%>
+      </td>
+    
+    </tr>
 
 
   <% }%>
+</table>
 
+
+ </div>
+
+<div>
+ <button id ="phone-delete" type ="button">
+
+  delete
+     
+  </button>  
+  
+   
+</div>
+
+<div>
+  <form action="/add" method="post">
+    <input type="text" name="oem" id="">
+    <input type="text" name="model" id="">
+    <input type="text" name="launch_announced" id="">
+    <input type="submit" value="add Phone">
+
+    
+    
+    </form>
+  
+  </div>
 
 
 
