@@ -32,6 +32,7 @@ export default class Cell {
 
   constructor(info, index) {
     const self = this;
+
     Cell.headers.forEach((header, i) => {
       let value = info[i];
 

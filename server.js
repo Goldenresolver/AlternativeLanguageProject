@@ -53,7 +53,7 @@ app.get("/delete", (req, res) => {
 
 async function readPhones() {
   try {
-    const data = await fs.readFile("cells.csv", { encoding: "utf8" });
+    const data = await fs.readFile("./cells.csv", { encoding: "utf8" });
     const rows = data.split(/[\r\n]+/);
     //console.log(rows);
     const cells = rows.map((row) =>
@@ -81,9 +81,16 @@ async function writePhones() {
     let content = Cell.headers.join(",") + EOL;
     for (const i in Cell.phones) {
       content +=
-        Cell.headers.map((header) => Cell.phones[i][header]).join(",") + EOL;
+        Cell.headers
+          .map((header) => {
+            let value = Cell.phones[i][header];
+            if (header == "body_weight") value += " g";
+            if (value.includes(",")) value = `"${value}"`;
+            return value;
+          })
+          .join(",") + EOL;
     }
-    await fs.writeFile("cells.csv", content);
+    await fs.writeFile("./cells.csv", content);
   } catch (err) {
     console.log(err);
   }
