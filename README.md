@@ -1,0 +1,1 @@
+![ScreenShot for four questions](ALTProjectScreenshot.png)

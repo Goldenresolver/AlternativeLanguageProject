@@ -1,3 +1,4 @@
+import { type } from "node:os";
 import Cell from "./Cell.js";
 //const Cell = require("Cell.js");
 import fs from "node:fs";
@@ -22,24 +23,26 @@ fs.readFile("cells.csv", "utf8", (err, data) => {
   }
   Cell.getAllValueCounts();
 
-  console.log(`Average body weight: ${Cell.mean("body_weight").toFixed(2)} g`);
-
   console.log(
-    `Average display size: ${Cell.mean("display_size").toFixed(2)} in`
+    `\nAverage body weight: ${Cell.mean("body_weight").toFixed(2)} g`
   );
 
   console.log(
-    `Standard Deviation of body weight: ${Cell.stddev("body_weight").toFixed(
+    `\nAverage display size: ${Cell.mean("display_size").toFixed(2)} in`
+  );
+
+  console.log(
+    `\nStandard Deviation of body weight: ${Cell.stddev("body_weight").toFixed(
       2
     )} g`
   );
   console.log(
-    `Unique values of OEM:\n  ${Cell.uniqueValues("oem").join("\n  ")} `
+    `\nUnique values of OEM:\n  ${Cell.uniqueValues("oem").join("\n  ")} `
   );
 
   const [modeYear, count] = Cell.mode("launch_announced");
   console.log(
-    `Year with most releases: ${modeYear} (${count} models released:  )`
+    `\nYear with most releases: ${modeYear} (${count} models released:  )`
   ); //*/
   // Cell.addPhone();
 
@@ -75,13 +78,57 @@ fs.readFile("cells.csv", "utf8", (err, data) => {
     }
   }
 
-  console.log(`Company highest average phone weight is: ${maxCompany}`);
+  console.log(
+    `\n(1) Company highest average phone weight is: ${maxCompany} with an average weight of ${maxAvg} g`
+  );
 
   //Was there any phones that were announced in one year and released in another? What are they? Give me the oem and models.
+  const statusInd = headers.indexOf("launch_status");
+
+  console.log(
+    "\n(2) Phones whose announced and release years are different:  "
+  );
+
+  for (let i = 0; i < cells.length; i++) {
+    const phone = Cell.phones[i];
+
+    const announced = phone.launch_announced;
+    const released = phone.launch_status;
+    if (
+      typeof announced === "number" &&
+      typeof released === "number" &&
+      announced != released
+    ) {
+      console.log(
+        `\t${phone.oem} ${phone.model}: Announced ${announced}, Released ${released}`
+      );
+    }
+  }
 
   //How many phones have only one feature sensor?
 
+  let feature_count = 0;
+
+  for (let i = 0; i < cells.length; i++) {
+    const phone = Cell.phones[i];
+
+    const features = phone.features_sensors;
+    if (features && !features.includes(",")) {
+      feature_count++;
+    }
+  }
+
+  console.log(`\n(3) Phones with only one feature sensor: ${feature_count} `);
+
   //What year had the most phones launched in any year later than 1999?
 
-  console.log(Cell.phones[0].toString());
+  const [modeLaunchYear, launchCount] = Cell.mode("launch_status", [
+    "Cancelled",
+    "Discontinued",
+  ]);
+  console.log(
+    `\n(4) Year with most releases: ${modeLaunchYear} (${launchCount} models released)\n`
+  ); //*/
+
+  //console.log(Cell.phones[0].toString());
 });

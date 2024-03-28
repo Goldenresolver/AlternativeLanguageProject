@@ -85,7 +85,7 @@ export default class Cell {
   set launch_status(value) {
     if (value && value != "Discontinued" && value != "Cancelled") {
       value = value.match(/(?:[^\d]|^)(\d{4})(?:[^\d]|$)/);
-      value = value ? value[1] : null;
+      value = value ? parseInt(value[1]) : null;
     }
     this._launch_status = value;
   }
@@ -217,11 +217,14 @@ export default class Cell {
     return sum / count;
   }
 
-  static mode(attr) {
+  static mode(attr, ignoredValues = []) {
     let maxValue = null,
       maxCount = 0;
     for (const value in Cell.counts[attr]) {
-      if (Cell.counts[attr][value] > maxCount) {
+      if (
+        !ignoredValues.includes(value) &&
+        Cell.counts[attr][value] > maxCount
+      ) {
         maxCount = Cell.counts[attr][value];
         maxValue = value;
       }
